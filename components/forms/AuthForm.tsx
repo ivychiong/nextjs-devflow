@@ -19,9 +19,8 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import ROUTES from "@/constants/routes";
-
-import { Input } from "../ui/input";
 
 interface AuthFormProps<T extends FieldValues> {
   schema: ZodType<T>;
