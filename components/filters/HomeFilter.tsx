@@ -1,10 +1,9 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import { useQueryState } from "nuqs";
+import React from "react";
 
 import { Button } from "@/components/ui/button";
-import { formUrlQuery, removeKeysFromUrlQuery } from "@/lib/url";
 import { cn } from "@/lib/utils";
 
 const filters = [
@@ -18,33 +17,18 @@ const filters = [
 ];
 
 const HomeFilter = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const filterParams = searchParams.get("filter");
+  const [active, setActive] = useQueryState("filter", {
+    defaultValue: "",
+    parse: (value) => value as string,
+    shallow: false,
+  });
 
-  const [active, setActive] = useState(filterParams || "");
-
-  const handleTypeClick = (filter: string) => {
-    let newUrl = "";
-
-    if (filter === active) {
+  const handleTypeClick = (value: string) => {
+    if (active === value) {
       setActive("");
-
-      newUrl = removeKeysFromUrlQuery({
-        params: searchParams.toString(),
-        keysToRemove: ["filter"],
-      });
     } else {
-      setActive(filter);
-
-      newUrl = formUrlQuery({
-        params: searchParams.toString(),
-        key: "filter",
-        value: filter.toLowerCase(),
-      });
+      setActive(value);
     }
-
-    router.push(newUrl, { scroll: false });
   };
 
   return (

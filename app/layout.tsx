@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import "./globals.css";
 import { auth } from "@/auth";
@@ -45,19 +46,21 @@ const RootLayout = async ({
         />
       </head>
       <SessionProvider session={session}>
-        <body
-          className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}
-        >
-          <ThemeProvider
-            attribute={"class"}
-            defaultTheme="system"
-            enableColorScheme
-            disableTransitionOnChange
+        <NuqsAdapter>
+          <body
+            className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}
           >
-            {children}
-          </ThemeProvider>
-          <Toaster />
-        </body>
+            <ThemeProvider
+              attribute={"class"}
+              defaultTheme="system"
+              enableColorScheme
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+            <Toaster />
+          </body>
+        </NuqsAdapter>
       </SessionProvider>
     </html>
   );
